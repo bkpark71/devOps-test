@@ -7,11 +7,11 @@ public class Account {
   private String name; //예금주 이름
   private long balance; // 잔액
 
-  void deposit(long amount) {
+  public void deposit(long amount) {
     balance += amount;
   }
 
-  void withdraw(long amount){
+  public void withdraw(long amount){
     if(amount > balance){
       System.out.println("출금오류");
     } else {
@@ -19,7 +19,7 @@ public class Account {
     }
   }
 
-  void checkBalance(){
+  public void checkBalance(){
     System.out.println("현재 계좌의 잔액은 " + getBalance() + "입니다.");
   }
   public String getAccountNo() {
