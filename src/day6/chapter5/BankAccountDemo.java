@@ -41,7 +41,8 @@ public class BankAccountDemo {
           }
           break;
         case 3:
-          System.out.println("출금>");
+          System.out.println("출금>")
+          ;
           break;
         case 4:
           System.out.println("잔고>");
