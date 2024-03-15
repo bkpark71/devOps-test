@@ -1,9 +1,12 @@
 package day8.chapter7;
 
 public interface MyInterface {
-  public static final int MAX = 10;
+  int MAX = 10;
 
-  public abstract void sayHello();
+  void sayHello();
+  default void say() {
+    System.out.println("say");
+  };
 }
 
 class Hello implements MyInterface {
@@ -15,5 +18,26 @@ class Hello implements MyInterface {
 
   void myMethod(){
     System.out.println("this is mymethod");
+  }
+}
+
+class Goodbye implements MyInterface{
+
+  @Override
+  public void sayHello() {
+    System.out.println("Goodbye");
+  }
+}
+
+class SaySomething implements MyInterface{
+
+  @Override
+  public void sayHello() {
+    System.out.println("say hello");
+  }
+
+  @Override
+  public void say() {
+    System.out.println("say something");
   }
 }
