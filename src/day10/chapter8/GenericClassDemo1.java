@@ -20,17 +20,6 @@ public class GenericClassDemo1 {
   }
 }
 
-class Beverage {
-}
-
-class Beer extends Beverage {
-
-}
-
-class Boricha extends Beverage {
-
-}
-
 class Cup {
   private Object beverage;
 
