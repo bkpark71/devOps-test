@@ -21,9 +21,7 @@ public class ArrListTest {
     arr.add(60);
 //    System.out.println(arr.size());
     arr.add(70);
-
     arr.add(80);
-
     arr.add(90);
 
 //    al.add(10);
