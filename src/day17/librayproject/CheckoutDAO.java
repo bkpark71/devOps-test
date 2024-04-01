@@ -7,6 +7,7 @@ import java.util.List;
 
 public class CheckoutDAO {
   private Connection conn;
+
   public List<Checkout> checkoutList() throws SQLException {
     conn = LibraryDBConnection.getConnection();
     String sql = "select * from checkout;";
@@ -17,8 +18,8 @@ public class CheckoutDAO {
     if (rs != null) {
       while (rs.next()) {
         checkout = new Checkout(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getInt(4),
-            rs.getDate(5),rs.getDate(6),rs.getBoolean(7),rs.getDate(8), rs.getDate(9),
-            rs.getString(10),rs.getString(11));
+            rs.getDate(5), rs.getDate(6), rs.getBoolean(7), rs.getDate(8), rs.getDate(9),
+            rs.getString(10), rs.getString(11));
         checkoutList.add(checkout);
       }
     }
@@ -29,15 +30,15 @@ public class CheckoutDAO {
     conn = LibraryDBConnection.getConnection();
     String sql = "select * from checkout where bookname like ? ;";
     PreparedStatement ps = conn.prepareStatement(sql);
-    ps.setString(1,bookname);
+    ps.setString(1, bookname);
     ResultSet rs = ps.executeQuery();
     List<Checkout> checkoutList = new LinkedList<>();
     Checkout checkout;
     if (rs != null) {
       while (rs.next()) {
         checkout = new Checkout(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getInt(4),
-            rs.getDate(5),rs.getDate(6),rs.getBoolean(7),rs.getDate(8), rs.getDate(9),
-            rs.getString(10),rs.getString(11));
+            rs.getDate(5), rs.getDate(6), rs.getBoolean(7), rs.getDate(8), rs.getDate(9),
+            rs.getString(10), rs.getString(11));
         checkoutList.add(checkout);
       }
     }
@@ -48,15 +49,15 @@ public class CheckoutDAO {
     conn = LibraryDBConnection.getConnection();
     String sql = "select * from checkout where username like ? ;";
     PreparedStatement ps = conn.prepareStatement(sql);
-    ps.setString(1,username);
+    ps.setString(1, username);
     ResultSet rs = ps.executeQuery();
     List<Checkout> checkoutList = new LinkedList<>();
     Checkout checkout;
     if (rs != null) {
       while (rs.next()) {
         checkout = new Checkout(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getInt(4),
-            rs.getDate(5),rs.getDate(6),rs.getBoolean(7),rs.getDate(8), rs.getDate(9),
-              rs.getString(10),rs.getString(11));
+            rs.getDate(5), rs.getDate(6), rs.getBoolean(7), rs.getDate(8), rs.getDate(9),
+            rs.getString(10), rs.getString(11));
         checkoutList.add(checkout);
       }
     }
@@ -67,27 +68,45 @@ public class CheckoutDAO {
     conn = LibraryDBConnection.getConnection();
     String sql = "select * from checkout where user_id = ? ;";
     PreparedStatement ps = conn.prepareStatement(sql);
-    ps.setInt(1,userId);
+    ps.setInt(1, userId);
     ResultSet rs = ps.executeQuery();
     List<Checkout> checkoutList = new LinkedList<>();
     Checkout checkout;
     if (rs != null) {
       while (rs.next()) {
         checkout = new Checkout(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getInt(4),
-            rs.getDate(5),rs.getDate(6),rs.getBoolean(7),rs.getDate(8), rs.getDate(9),
-            rs.getString(10),rs.getString(11));
+            rs.getDate(5), rs.getDate(6), rs.getBoolean(7), rs.getDate(8), rs.getDate(9),
+            rs.getString(10), rs.getString(11));
         checkoutList.add(checkout);
       }
     }
     return checkoutList;
   }
 
-  public boolean checkoutCheck(int bookid) throws SQLException{
+  public Checkout checkoutInfo(int checkoutId) throws SQLException {
+    conn = LibraryDBConnection.getConnection();
+    String sql = "select * from checkout where id = ? ;";
+    PreparedStatement ps = conn.prepareStatement(sql);
+    ps.setInt(1, checkoutId);
+
+    ResultSet rs = ps.executeQuery();
+
+    Checkout checkout;
+    if (rs != null && rs.next()) {
+      checkout = new Checkout(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getInt(4),
+          rs.getDate(5), rs.getDate(6), rs.getBoolean(7), rs.getDate(8), rs.getDate(9),
+          rs.getString(10), rs.getString(11));
+      return checkout;
+    }
+    return null;
+  }
+
+  public boolean checkoutCheck(int bookid) throws SQLException {
     // 대출가능 상태인 도서 확인
     conn = LibraryDBConnection.getConnection();
     String sql = "select * from books where id = ? and status = '대출가능' ; ";
     PreparedStatement ps = conn.prepareStatement(sql);
-    ps.setInt(1,bookid);
+    ps.setInt(1, bookid);
     ResultSet rs = ps.executeQuery();
     Checkout checkout;
     if (rs != null && rs.next()) {
@@ -104,7 +123,7 @@ public class CheckoutDAO {
     Date sqldate = Date.valueOf(LocalDate.now());
 
     String sql = "insert into checkout (lib_id, book_id, user_id, checkout_date, tobereturn_date, username, bookname) " +
-        "values (?,?,?,?,?,?,?) ; " ;
+        "values (?,?,?,?,?,?,?) ; ";
     PreparedStatement ps = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
     ps.setInt(1, user.getLibId());
     ps.setInt(2, book.getId());
@@ -121,8 +140,9 @@ public class CheckoutDAO {
       System.out.println("대출 처리 완료");
     }
   }
-  public Checkout checkoutInfo(Checkout checkout) throws SQLException {
 
-    return null;
+  public void checkinProcess(User user, Checkout checkout) throws SQLException {
+
   }
+
 }

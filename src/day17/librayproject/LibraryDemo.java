@@ -4,6 +4,9 @@ import java.sql.SQLException;
 import java.util.List;
 
 public class LibraryDemo {
+  static CheckoutDAO checkoutDAO = new CheckoutDAO();
+  static BookDAO bookDAO = new BookDAO();
+  static UserDAO userDAO = new UserDAO();
   public static void main(String[] args) throws SQLException {
     //bookDAOTest();
     //userDAOTest();
@@ -12,7 +15,7 @@ public class LibraryDemo {
 
   private static void checkoutDAOTest() throws SQLException {
     System.out.println("전체 대출도서 목록 조회");
-    CheckoutDAO checkoutDAO = new CheckoutDAO();
+    //CheckoutDAO checkoutDAO = new CheckoutDAO();
     List<Checkout> checkouts = checkoutDAO.checkoutList();
     //System.out.println(checkouts);
     checkouts.stream().forEach(System.out::println);
@@ -29,13 +32,17 @@ public class LibraryDemo {
     checkouts.stream().forEach(System.out::println);
 
     System.out.println("대출가능인 도서에 대해 대출 처리");
-    BookDAO bookDAO = new BookDAO();
-    UserDAO userDAO = new UserDAO();
     Book book = bookDAO.bookByID(7,1);
     User user = userDAO.userByID(2,1);
     if(book.getStatus().equals("대출가능") && user != null) {  // 탈퇴한 회원은 사용자대장에서 삭제하므로 user가 존재하면 대출가능이라고 준함
       checkoutDAO.checkoutProcess(book, user);
     }
+
+    System.out.println("대출중인 도서 한권에 대한 반납 처리");
+//    Checkout checkout = checkoutDAO.checkoutInfo(1);
+//    Book book = bookDAO.bookByID(7,1);
+//    User user = userDAO.userByID(2,1);
+    //if(book.getStatus().equals("대출가능") && user
   }
 
   private static void userDAOTest() throws SQLException {
